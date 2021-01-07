@@ -14,13 +14,14 @@ I was struggling with this assignment and found a Udemy course that teaches a si
 I will list the differences here to explain the methodology behind this program and show my understanding.
 
 **End of Line Probability**
-One difference is that in order to calculate where a line should end in our generated poem, it takes the last pair of words
+One difference in my program is that in order to calculate where a line should end in our generated poem, it takes the last pair of words
 at the end of a line and pairs it to a key/value that looks like this: ('word1', 'word2'): {'END': probability of ending}.
 It looks for that pair of words and generates the likelihood that those words are used at the end of a sentence, essentially treating
 the end of a line like a word, as well as a stopping point to prevent the for loop from moving the current_word variable to point out of bounds.
 
 Later in the program when generating words, if a key (word pair) is selected from our transitions dictionary that has a value of END, that particular line
-will end in our generated poem. This allows for dynamically sized lines of text. This is also why it does not generate 20 words per line.
+will end in our generated poem. This allows for dynamically sized lines of text, and for more realistic sentences with proper words to end a sentence. 
+This is also why it does not generate 20 words per line.
 
 
 # H1 Understanding of Markov
