@@ -36,7 +36,8 @@ for line in open('nursery_rhymes.txt'):
             prev_word = line_of_words[i-1]
             if i == len(line_of_words) - 1:
                 # measure probability of ending the line
-               add2dict(transitions, (prev_word, current_word), 'END') #Takes the last word of a line, and adds the probability of the line to the value of the pair
+               add2dict(transitions, (prev_word, current_word), 'END') #Takes the last word of a line like another word
+            #since we are reading in from a single line, when we reach the end of the line it gets lost without a stopping point
             if i == 1:
                 # measure probability of second word given only first word
                 add2dict(second_word_dictionary, prev_word, current_word)
@@ -47,8 +48,10 @@ for line in open('nursery_rhymes.txt'):
 
 
 # normalize counts to probabilities
-total_starting_words = sum(starting_words.values()) #sum of probabilities
+total_starting_words = sum(starting_words.values()) #sum to convert starting_words dict to probabilites
 for current_word, count in iteritems(starting_words):
+    #print("CURRENT WORD:", current_word)
+    #print("COUNT: ", count)
     starting_words[current_word] = count / total_starting_words
 
 #translates to probabilities
@@ -76,6 +79,10 @@ def generate_word(dictionary):
     cumulative = 0 #count for all probabilities so far
     #we track the sum of the probabilities for each term
     for term, prob in iteritems(dictionary):
+        #print("TERM:", term)
+        #print("PROB: ", prob)
+        #print("CUMULATIVE: ",cumulative)
+        #print("RAND: ", rand_num)
         cumulative += prob
         if rand_num < cumulative:
             return term
@@ -95,14 +102,18 @@ def generate():
         sentence.append(word1)
 
 
-        #word_count = 2
+        word_count = 2
         while True:
             # generate the rest of the words based on the previous 2 word probabilities
-            word2 = generate_word(transitions[(word0, word1)])
+            word2 = generate_word(transitions[(word0, word1)]) #pass in the first 2 words compared with the probabilites of all other words based on that word pair
+            #print("WORD 2: ", word2)
             if word2 == 'END':# and word_count == 20
+                #word2 = generate_word(transitions[(word0, word1)])
                 break
+            #if word_count == 20:
+            #    break
             sentence.append(word2)
-            word0 = word1
+            word0 = word1 #set words up for next iteration ()
             word1 = word2
             #word_count += 1
         print(' '.join(sentence))
